@@ -7,7 +7,7 @@ from pydantic import BaseModel
 app = FastAPI()
 
 def generate_secure_password(length: int = 10) -> str:
-    """Генерирует криптографически безопасный пароль заданной длины"""
+    """Генерирует криптографически безопасный пароль заданной длины."""
     characters = string.ascii_letters + string.digits + "!@#$%^&*"
 
     while True:
