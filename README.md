@@ -60,7 +60,19 @@ Open the inreactive documentation: http://localhost:8000/docs
         $ screen -r fastapi  # Реатач сессии
     Просмотр всех сессий:
         $ screen -ls
-7. Настройка firewall:
+7.  Чтобы остановить запущенные screen-сессии с FastAPI на VPS:
+    $ screen -r 37714.fastapi  # Для Detached сессии
+8. Настройка firewall:
     ufw allow 8000
     ufw enable
     
+
+
+
+
+Итоговое решение:
+# Копируем файл в /tmp/, даём права postgres и запускаем
+$ sudo cp demo-small-20170815.sql /tmp/
+$ sudo chown postgres:postgres /tmp/demo-small-20170815.sql
+$ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
+
