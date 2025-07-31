@@ -10,7 +10,7 @@
 Скопируйте репозиторий с помощью команды:
 $ git clone https://github.com/RuslanSayfullin/sayfullin.git
 Перейдите в основную директорию с помощью команды: 
-$ cd sayfullin/backend
+$ cd sayfullin/app
 
 ========================================================================================================================
 Создать и активировать виртуальное окружение: 
@@ -34,7 +34,7 @@ Open the inreactive documentation: http://localhost:8000/docs
 2. Установка зависимостей:
     $ sudo apt update && apt upgrade -y
     $ sudo apt install python3 python3-pip -y git ufw
-    $ pip3 install fastapi uvicorn
+    $ pip3 install fastapi uvicorn pymongo python-multipart
 3. Загрузка кода на сервер:
     $ git clone https://github.com/RuslanSayfullin/sayfullin.git
     $ cd sayfullin
@@ -76,3 +76,39 @@ $ sudo cp demo-small-20170815.sql /tmp/
 $ sudo chown postgres:postgres /tmp/demo-small-20170815.sql
 $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
 
+
+
+######## Postgres
+Запускаем утилиту psql как пользователь postgres с правами sudo.
+    $ sudo -u postgres psql
+Создать БД:
+    =# CREATE DATABASE portal;
+Посмотреть список доступных баз данных:
+    =# SELECT datname FROM pg_database;
+Удалить базу данных:
+    =# DROP DATABASE имя_базы;
+
+
+Создание пользователя:
+    =# CREATE USER portal WITH PASSWORD 'myPassword';
+Даем права на базу командой:
+    =# GRANT ALL PRIVILEGES ON DATABASE "portal" to portal;
+Для просмотра всех пользователей:
+    =# select * from pg_user;
+Смена пароля:
+    =# ALTER USER portal PASSWORD 'password'
+Удаление пользователя выполняется следующей командой:
+    =# DROP USER portal;
+Подключиться к базе данных:
+    $ sudo -u postgres psql -d portal
+
+Для безопасного хранения пароля и других чувствительных данных (например, в DATABASE_URL) используйте переменные окружения (environment variables).
+1. Создайте файл .env в корне проекта и добаввялем переменные:
+
+    # .env
+    DATABASE_URL=postgresql+asyncpg://postgres:password@localhost:5432/postgres
+
+2. Установите python-dotenv(иблиотека загружает переменные из .env в os.environ):
+    $ pip install python-dotenv
+
+3. Загрузите переменные в код:
