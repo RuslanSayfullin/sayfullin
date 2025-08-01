@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
-app = FastAPI()
+app = FastAPI(title="Auth", version="1.0.0")
 
 @app.get("/")
 def read_root():

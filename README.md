@@ -1,5 +1,5 @@
 ##### _разработка Sayfullin R.R.
-##### реализация системы заметок с использованием FastAPI, MongoDB и Pydantic v2, включая аутентификацию пользователей.
+##### реализация я с FastAPI (бэкенд) и JavaScript (фронтенд) для регистрации и авторизации:
 
 Инструкция актуальна для Linux-систем.
 ========================================================================================================================
@@ -37,7 +37,7 @@ Open the inreactive documentation: http://localhost:8000/docs
 2. Установка зависимостей:
     $ sudo apt update && apt upgrade -y
     $ sudo apt install python3 python3-pip git neofetch htop
-    $ pip3 install fastapi uvicorn pydantic pydantic_settings pydantic[email] motor passlib python-jose[cryptography] python-multipart
+    $ pip3 install fastapi uvicorn pydantic dotenv asyncpg
 3. Загрузка кода на сервер:
     $ git clone https://github.com/RuslanSayfullin/sayfullin.git
     $ cd sayfullin
@@ -110,7 +110,8 @@ $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
 
     # .env
     DATABASE_URL=postgresql+asyncpg://postgres:password@localhost:5432/postgres
-
+    Сгенерировать ключ командой: 
+        $ openssl rand -hex 32
 2. Установите python-dotenv(иблиотека загружает переменные из .env в os.environ):
     $ pip install python-dotenv
 
