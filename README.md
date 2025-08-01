@@ -32,6 +32,8 @@ Open the inreactive documentation: http://localhost:8000/docs
 
 1. Подключение к VPS:
     $ ssh root@176.124.210.35
+Удалить старый ключ:
+    $ ssh-keygen -f "/home/user/.ssh/known_hosts" -R "176.124.210.35"
 2. Установка зависимостей:
     $ sudo apt update && apt upgrade -y
     $ sudo apt install python3 python3-pip git neofetch htop
@@ -44,9 +46,9 @@ Open the inreactive documentation: http://localhost:8000/docs
     --host 0.0.0.0  - делает приложение доступным извне
     --port 8000     - порт по умолчанию
 5. Проверка работы:
-    Откройте в браузере: http://176.124.210.35:8000/random
+    Откройте в браузере: http://176.124.210.35:8000/
     Через curl:
-        $ curl http://176.124.210.35:8000/random
+        $ curl http://176.124.210.35:8000/
 6.  Использовать screen для FastAPI.
     screen — это терминальный мультиплексор, который позволяет запускать процессы в фоне, даже если SSH-сессия оборвется, процесс продолжит работу.
     Установка screen:
