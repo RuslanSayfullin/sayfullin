@@ -1,4 +1,5 @@
 ##### _разработка Sayfullin R.R.
+##### реализация системы заметок с использованием FastAPI, MongoDB и Pydantic v2, включая аутентификацию пользователей.
 
 Инструкция актуальна для Linux-систем.
 ========================================================================================================================
@@ -33,8 +34,8 @@ Open the inreactive documentation: http://localhost:8000/docs
     $ ssh root@176.124.210.35
 2. Установка зависимостей:
     $ sudo apt update && apt upgrade -y
-    $ sudo apt install python3 python3-pip -y git ufw
-    $ pip3 install fastapi uvicorn pymongo python-multipart
+    $ sudo apt install python3 python3-pip git neofetch htop
+    $ pip3 install fastapi uvicorn motor pymongo bcrypt python-jose[cryptography] python-multipart
 3. Загрузка кода на сервер:
     $ git clone https://github.com/RuslanSayfullin/sayfullin.git
     $ cd sayfullin
@@ -69,7 +70,7 @@ Open the inreactive documentation: http://localhost:8000/docs
 
 
 
-
+========================================================================================================================
 Итоговое решение:
 # Копируем файл в /tmp/, даём права postgres и запускаем
 $ sudo cp demo-small-20170815.sql /tmp/
@@ -78,7 +79,7 @@ $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
 
 
 
-######## Postgres
+######## Установка Postgres на VDS (Ubuntu/Debian)
 Запускаем утилиту psql как пользователь postgres с правами sudo.
     $ sudo -u postgres psql
 Создать БД:
@@ -112,3 +113,22 @@ $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
     $ pip install python-dotenv
 
 3. Загрузите переменные в код:
+
+
+========================================================================================================================
+######## Установка MongoDB на VDS (Ubuntu/Debian)
+1. Обновление системы
+    $ sudo apt update && sudo apt upgrade -y
+2. Установка зависимостей
+    $ sudo apt-get install gnupg curl
+3. Добавление репозитория MongoDB
+    $ curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor
+    $ echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] http://repo.mongodb.org/apt/debian bookworm/mongodb-org/8.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+    $ sudo apt update
+4. Установка MongoDB
+    $ sudo apt-get install -y mongodb-org
+5. Запуск и автозагрузка
+    $ sudo systemctl start mongod
+    $ sudo systemctl enable mongod
+6. Проверка статуса
+    $ sudo systemctl status mongod
