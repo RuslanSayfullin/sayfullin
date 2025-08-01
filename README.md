@@ -35,7 +35,7 @@ Open the inreactive documentation: http://localhost:8000/docs
 2. Установка зависимостей:
     $ sudo apt update && apt upgrade -y
     $ sudo apt install python3 python3-pip git neofetch htop
-    $ pip3 install fastapi uvicorn motor pymongo bcrypt python-jose[cryptography] python-multipart pydantic_settings
+    $ pip3 install fastapi uvicorn
 3. Загрузка кода на сервер:
     $ git clone https://github.com/RuslanSayfullin/sayfullin.git
     $ cd sayfullin
