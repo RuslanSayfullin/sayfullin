@@ -37,7 +37,7 @@ Open the inreactive documentation: http://localhost:8000/docs
 2. Установка зависимостей:
     $ sudo apt update && apt upgrade -y
     $ sudo apt install python3 python3-pip git neofetch htop
-    $ pip3 install fastapi uvicorn
+    $ pip3 install fastapi uvicorn pydantic pydantic_settings pydantic[email] motor passlib python-jose[cryptography] python-multipart
 3. Загрузка кода на сервер:
     $ git clone https://github.com/RuslanSayfullin/sayfullin.git
     $ cd sayfullin
@@ -122,7 +122,7 @@ $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
 1. Обновление системы
     $ sudo apt update && sudo apt upgrade -y
 2. Установка зависимостей
-    $ sudo apt-get install gnupg curl
+    $ sudo apt install gnupg curl
 3. Добавление репозитория MongoDB
     $ curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor
     $ echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] http://repo.mongodb.org/apt/debian bookworm/mongodb-org/8.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
@@ -134,3 +134,50 @@ $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
     $ sudo systemctl enable mongod
 6. Проверка статуса
     $ sudo systemctl status mongod
+7. Настройка аутентификации:    
+    # Подключение к MongoDB shell
+    $ mongosh
+
+    # В консоли MongoDB создаем администратора
+    test> use admin
+    admin> db.createUser({
+            user: "cryptolis",
+            pwd: "269ef",
+            roles: ["root"]
+        })
+
+    # Создаем базу данных для приложения
+    admin> use notes_db
+    notes_db> db.createCollection("users")
+    notes_db> db.createCollection("notes")
+    notes_db> db.runCommand({connectionStatus: 1})
+    notes_db> exit
+
+8. Конфигурация MongoDB:
+    $ sudo nano /etc/mongod.conf
+
+    """
+        security:
+        authorization: enabled  # Включаем аутентификацию
+
+        net:
+        bindIp: 0.0.0.0  # Для доступа с других серверов
+        port: 27017
+
+        storage:
+        journal:
+            enabled: true
+        dbPath: /var/lib/mongodb
+        wiredTiger:
+            engineConfig:
+            cacheSizeGB: 1  # 50% от доступной RAM
+
+        systemLog:
+        destination: file
+        logAppend: true
+        path: /var/log/mongodb/mongod.log
+
+        processManagement:
+        fork: true
+        timeZoneInfo: /usr/share/zoneinfo
+    """
