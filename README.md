@@ -15,13 +15,12 @@ $ cd sayfullin/app
 
 ========================================================================================================================
 Создать и активировать виртуальное окружение: 
-    $ python3 -m venv venv 
-    $ source venv/bin/activate 
-Установить зависимости из файла requirements.txt:
-    (venv) $ pip install -r requirements.txt
-
-Cоздания файла зависимостейс помощью команды:
-    $ pip freeze > requirements.txt
+    $ poetry env use python3.11
+    $ poetry shell
+Установить зависимости:
+    $ poetry install 
+Выход:
+    $ exit
 
 Open the inreactive documentation: http://localhost:8000/docs
 
@@ -50,7 +49,6 @@ $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
 Удалить базу данных:
     =# DROP DATABASE имя_базы;
 
-
 Создание пользователя:
     =# CREATE USER portal WITH PASSWORD 'myPassword';
 Даем права на базу командой:
@@ -68,7 +66,7 @@ $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
 1. Создайте файл .env в корне проекта и добаввялем переменные:
 
     # .env
-    DATABASE_URL=postgresql+asyncpg://postgres:password@localhost:5432/postgres
+    DATABASE_URL=postgresql+asyncpg://postgres:password@localhost:5432/portal
     Сгенерировать ключ командой: 
         $ openssl rand -hex 32
 2. Установите python-dotenv(иблиотека загружает переменные из .env в os.environ):
