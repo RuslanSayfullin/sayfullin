@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # Настройки пула соединений с БД
     db_pool_min_size: int = 5      # Минимальное количество соединений
     db_pool_max_size: int = 20     # Максимальное количество соединений  
-    db_pool_timeout: int = 30      # Таймаут соединения в секундах
+    db_pool_timeout: int = 30      # Таймаут ожидания свободного соединения в секундах
 
     class Config:
         env_file = ".env"          # Читать настройки из .env файла
