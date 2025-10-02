@@ -52,7 +52,7 @@ class Database:
         except Exception:
             return False
         
-    async def initiaize_database(self):
+    async def initialize_database(self):
         """Инициализация БД"""
         async with self.get_connection() as conn:
             # Создание таблицы пользователей
@@ -81,4 +81,4 @@ class Database:
             ''')
 
 # Глобальный экземпляр базы данных
-database = Database
+database = Database()
