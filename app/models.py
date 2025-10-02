@@ -1,35 +1,33 @@
-from datetime import datetime
-from typing import Optional
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
-from pydantic import BaseModel, EmailStr, ConfigDict
+Base = declarative_base()
 
-class UserBase(BaseModel):
-    """Базовый класс с общими полями для всех пользовательских моделей"""
-    name: str
-    email: EmailStr
+class User(Base):
+    __tablename__ = "users"
 
-class UserCreate(UserBase):
-    pass 
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), nullable=False, index=True)
+    email = Column(String(100), unique=True, nullable=False, index=True)
+    bio = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-class UserUpdate(BaseModel):
-    name: Optional[str] = None
-    email: Optional[EmailStr] = None
+    # Relationship
+    posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
 
-class User(UserBase):
-    id: int
-    created_at: datetime
-    updated_at: datetime
-    
-    model_config = ConfigDict(from_attributes=True)
+class Post(Base):
+    __tablename__ = "posts"
 
-class HealthCheckResponse(BaseModel):
-    status: str
-    database: str
-    timestamp: datetime
-    environment: str
-    
-class StatsResponse(BaseModel):
-    total_users: int
-    avg_name_length: float
-    first_user_date: datetime
-    last_user_date: datetime
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(200), nullable=False, index=True)
+    content = Column(Text, nullable=False)
+    author_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    # Relationship
+    author = relationship("User", back_populates="posts")

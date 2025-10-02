@@ -5,8 +5,9 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    # создаем конфигурацию приложения
-    database_url: str   # URL базы данных
+    """создаем конфигурацию приложения"""
+    database_url: str
+    sync_database_url: str
 
     # Параметры с значениями по умолчанию
     app_host: str = "0.0.0.0"      # Хост для запуска сервера
@@ -20,6 +21,9 @@ class Settings(BaseSettings):
     db_pool_max_size: int = 20     # Максимальное количество соединений  
     db_pool_timeout: int = 30      # Таймаут ожидания свободного соединения в секундах
 
+    # Security
+    secret_key: str = "your-secret-key"
+    
     class Config:
         env_file = ".env"          # Читать настройки из .env файла
         case_sensitive = False     # Игнорировать регистр переменных
