@@ -1,29 +1,33 @@
-from contextlib import asynccontextmanager
-from typing import Optional
-
-import asyncpg
+from sqlalchemy.ext.asyncio import (
+    create_async_engine,
+    async_session,
+    AsyncSession
+)
+from sqlalchemy.orm import DeclarativeBase
 
 from app.config import settings
 
-class Database:
-    def __init__(self):
-        self.pool: Optional[asyncpg.Pool] = None
+# Создаем асинхронный движок
+engine = create_async_engine(
+    settings.DATABASE_URL,
+    echo=settings.DEBUG,
+    future=True
+)
 
-    async def connect(self):
-        """Создает пул соединений с БД"""
-        if self.pool is None:
-            self.pool = await asyncpg.create_pool(
-                settings.database_url,
-                min_size=settings.db_pool_min_size,
-                max_size=settings.db_pool_max_size,
-                timeout=settings.db_pool_timeout,
-                max_inactive_connection_lifetime=300
-            )
-        return self.pool
+# Создаем фабрику сессий
+AsyncSessionLocal = async_session(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False
+)
 
+class Base(DeclarativeBase):
+    pass
 
-
-
-
-# Глобальный экземпляр базы данных
-database = Database()
+# Dependency для получения сессии БД
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session
+        finally:
+            await session.close()
