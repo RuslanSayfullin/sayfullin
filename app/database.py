@@ -3,7 +3,6 @@ from sqlalchemy.ext.asyncio import (
     async_session,
     AsyncSession
 )
-from sqlalchemy.orm import DeclarativeBase
 
 from app.config import settings
 
@@ -20,9 +19,6 @@ AsyncSessionLocal = async_session(
     class_=AsyncSession,
     expire_on_commit=False
 )
-
-class Base(DeclarativeBase):
-    pass
 
 # Dependency для получения сессии БД
 async def get_db():
