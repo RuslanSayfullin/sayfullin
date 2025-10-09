@@ -32,19 +32,7 @@ $ cd sayfullin/app
 
 
 ========================================================================================================================
-
-
-
-
-Итоговое решение:
-# Копируем файл в /tmp/, даём права postgres и запускаем
-$ sudo cp demo-small-20170815.sql /tmp/
-$ sudo chown postgres:postgres /tmp/demo-small-20170815.sql
-$ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
-
-
-
-######## Установка Postgres на VDS (Ubuntu/Debian)
+Установка Postgres на VDS (Ubuntu/Debian)
 Запускаем утилиту psql как пользователь postgres с правами sudo.
     $ sudo -u postgres psql
 Создать БД:
@@ -55,15 +43,17 @@ $ sudo -u postgres psql -f /tmp/demo-small-20170815.sql
     =# DROP DATABASE имя_базы;
 
 Создание пользователя:
-    =# CREATE USER portal WITH PASSWORD 'myPassword';
+    =# CREATE USER portaluser WITH PASSWORD 'myPassword';
 Даем права на базу командой:
-    =# GRANT ALL PRIVILEGES ON DATABASE "portal" to portal;
+    =# GRANT ALL PRIVILEGES ON DATABASE "portal" to portaluser;
 Для просмотра всех пользователей:
     =# select * from pg_user;
 Смена пароля:
-    =# ALTER USER portal PASSWORD 'password'
+    =# ALTER USER portaluser PASSWORD 'password'
+Отозвать все привилегии от всех баз данных
+    =# REVOKE ALL PRIVILEGES ON DATABASE portal FROM portaluser;
 Удаление пользователя выполняется следующей командой:
-    =# DROP USER portal;
+    =# DROP USER portaluser;
 Подключиться к базе данных:
     $ sudo -u postgres psql -d portal
 

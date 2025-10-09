@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     
     class Config:
         env_file = ".env"
+        case_sensitive = False  # игнорировать регистр в .env
 
 
 settings = Settings()
