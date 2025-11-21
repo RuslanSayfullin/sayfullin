@@ -196,3 +196,12 @@ Loopback‑интерфейс (всегда присутствует):
     $ usermod -aG sudo new-user
 Теперь переключитесь на нового пользователя:
     $ su -  new-user
+
+========================================================================================================================
+
+Для защиты сервера настройть ufw (Uncomplicated Firewall):
+    $ sudo apt install ufw -y
+    $ sudo ufw allow OpenSSH
+    $ sudo ufw enable
+Использовать Nginx, открыть порт 80 (HTTP) и 443 (HTTPS):
+    $ sudo ufw allow 'Nginx Full'
