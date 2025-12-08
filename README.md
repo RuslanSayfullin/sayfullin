@@ -194,6 +194,8 @@ Loopback‑интерфейс (всегда присутствует):
     $ adduser new-user
 Добавить нового пользователя в группу sudo:
     $ usermod -aG sudo new-user
+Просмотр всех учётных записей из файла /etc/passwd:
+    $ getent passwd | awk -F: '$3 >= 1000 {print $1}'
 Теперь переключитесь на нового пользователя:
     $ su -  new-user
 
